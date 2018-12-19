@@ -332,6 +332,16 @@ public class Bluetooth {
             try {
                 socket.connect();
                 out = socket.getOutputStream();
+
+                while (socket.getInputStream().available() <= 0)
+                {
+                    try {
+                        Thread.sleep(15);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
                 input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 connected=true;
 
