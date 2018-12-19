@@ -203,6 +203,14 @@ public class Bluetooth {
                 out.write(msg.getBytes());//Sending as UTF-8 as default
             }
 
+            while (socket.getInputStream().available() <= 0)
+            {
+                try {
+                    Thread.sleep(15);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
 
             input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             connected=true;
@@ -292,7 +300,7 @@ public class Bluetooth {
             String msg = "";
             int charInt;
             try {
-                
+
                 while (input.ready())
                 {
                     msg += (char)input.read();
