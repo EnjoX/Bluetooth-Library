@@ -280,9 +280,9 @@ public class Bluetooth {
             String msg = "";
             int charInt;
             try {
-                while ((charInt = input.read()) != -1)
+                while (input.ready())
                 {
-                    msg += (char)charInt;
+                    msg += (char)input.read();
                 }
 
                 if(deviceCallback != null){
