@@ -31,6 +31,7 @@ public class Bluetooth {
     private Activity activity;
     private Context context;
     private UUID uuid;
+    private int maxMillis;
 
     private BluetoothManager bluetoothManager;
     private BluetoothAdapter bluetoothAdapter;
@@ -203,10 +204,15 @@ public class Bluetooth {
                 out.write(msg.getBytes());//Sending as UTF-8 as default
             }
 
-            while (socket.getInputStream().available() <= 0)
+
+            int time = 0;
+            int millisWait = 15;
+            while (socket.getInputStream().available() <= 0 && time < maxMillis)
             {
                 try {
-                    Thread.sleep(15);
+                    Thread.sleep(millisWait);
+
+                    time += millisWait;
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -533,5 +539,14 @@ public class Bluetooth {
 
     public void removeBluetoothCallback(){
         this.bluetoothCallback = null;
+    }
+
+
+    public int getMaxMillis() {
+        return maxMillis;
+    }
+
+    public void setMaxMillis(int maxMillis) {
+        this.maxMillis = maxMillis;
     }
 }
