@@ -31,7 +31,7 @@ public class Bluetooth {
     private Activity activity;
     private Context context;
     private UUID uuid;
-    private int maxMillis;
+    private int maxMillis = 1000;
 
     private BluetoothManager bluetoothManager;
     private BluetoothAdapter bluetoothAdapter;
