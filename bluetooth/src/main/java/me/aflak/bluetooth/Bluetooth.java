@@ -335,6 +335,9 @@ public class Bluetooth {
                 input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 connected=true;
 
+                ReceiveThread thread = new ReceiveThread();
+                thread.setPriority(10);
+
                 new ReceiveThread().start();
 
                 if(deviceCallback !=null) {
