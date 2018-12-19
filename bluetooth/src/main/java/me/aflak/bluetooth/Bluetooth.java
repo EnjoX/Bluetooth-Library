@@ -202,6 +202,18 @@ public class Bluetooth {
             }else {
                 out.write(msg.getBytes());//Sending as UTF-8 as default
             }
+
+
+            input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            connected=true;
+
+            ReceiveThread thread = new ReceiveThread();
+            thread.setPriority(10);
+
+            thread.start();
+
+
+
         } catch (final IOException e) {
             connected=false;
             if(deviceCallback !=null){
@@ -280,6 +292,7 @@ public class Bluetooth {
             String msg = "";
             int charInt;
             try {
+                
                 while (input.ready())
                 {
                     msg += (char)input.read();
@@ -332,23 +345,7 @@ public class Bluetooth {
             try {
                 socket.connect();
                 out = socket.getOutputStream();
-
-                while (socket.getInputStream().available() <= 0)
-                {
-                    try {
-                        Thread.sleep(15);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 connected=true;
-
-                ReceiveThread thread = new ReceiveThread();
-                thread.setPriority(10);
-
-                thread.start();
 
                 if(deviceCallback !=null) {
                     ThreadHelper.run(runOnUi, activity, new Runnable() {
