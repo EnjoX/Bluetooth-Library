@@ -338,7 +338,7 @@ public class Bluetooth {
                 ReceiveThread thread = new ReceiveThread();
                 thread.setPriority(10);
 
-                new ReceiveThread().start();
+                thread.start();
 
                 if(deviceCallback !=null) {
                     ThreadHelper.run(runOnUi, activity, new Runnable() {
