@@ -277,19 +277,24 @@ public class Bluetooth {
 
     private class ReceiveThread extends Thread implements Runnable{
         public void run(){
-            String msg;
+            String msg = "";
+            int charInt;
             try {
-                while((msg = input.readLine()) != null) {
-                    if(deviceCallback != null){
-                        final String msgCopy = msg;
-                        ThreadHelper.run(runOnUi, activity, new Runnable() {
-                            @Override
-                            public void run() {
-                                deviceCallback.onMessage(msgCopy);
-                            }
-                        });
-                    }
+                while ((charInt = input.read()) != -1)
+                {
+                    msg += (char)charInt;
                 }
+
+                if(deviceCallback != null){
+                    final String msgCopy = msg;
+                    ThreadHelper.run(runOnUi, activity, new Runnable() {
+                        @Override
+                        public void run() {
+                            deviceCallback.onMessage(msgCopy);
+                        }
+                    });
+                }
+
             } catch (final IOException e) {
                 connected=false;
                 if(deviceCallback != null){
